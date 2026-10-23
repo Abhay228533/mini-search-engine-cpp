@@ -1,0 +1,19 @@
+Data Structures and Algorithms
+
+Data structures organize and store information so that programs can access and modify data efficiently. Choosing the right data structure depends on the operations required and the size of the input.
+
+An array stores elements in contiguous memory locations and supports constant-time access by index. A linked list stores elements in nodes connected through pointers. Insertion and deletion can be efficient when the relevant node is already known.
+
+A stack follows the Last In, First Out principle. Common operations include push, pop, and peek. A queue follows the First In, First Out principle and supports enqueue and dequeue operations.
+
+A tree represents hierarchical data. A binary search tree stores smaller values in the left subtree and larger values in the right subtree. Balanced trees help maintain efficient search, insertion, and deletion operations.
+
+A graph consists of vertices and edges. Graphs can represent road networks, social connections, and computer networks. Breadth-first search explores vertices level by level, while depth-first search explores a path before backtracking.
+
+Sorting algorithms arrange elements in a particular order. Merge sort and heap sort have O(n log n) time complexity in their standard implementations. Quicksort has average O(n log n) time complexity but can take O(n squared) time in the worst case.
+
+Binary search finds an element in a sorted array by repeatedly dividing the search interval in half. Its time complexity is O(log n), compared with O(n) for linear search.
+
+Big O notation describes how an algorithm's resource requirements grow with input size. Common complexities include O(1), O(log n), O(n), O(n log n), and O(n squared).
+
+Efficient data structures and algorithms are essential for competitive programming, database systems, search engines, and large-scale software applications.

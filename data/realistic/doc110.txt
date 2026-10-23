@@ -1,0 +1,19 @@
+Artificial Intelligence and Generative AI
+
+Artificial intelligence is a field of computer science focused on building systems that perform tasks requiring human-like intelligence. These tasks include reasoning, learning, planning, language understanding, and decision-making.
+
+Machine learning is a subset of artificial intelligence that learns patterns from data. Deep learning uses neural networks with multiple layers to learn complex representations.
+
+Generative artificial intelligence creates new content such as text, images, audio, video, and computer code. Large language models are trained on large text datasets to predict and generate sequences of tokens.
+
+A transformer is a neural network architecture that uses attention mechanisms to model relationships between tokens. Self-attention helps the model determine which parts of the input are important when generating an output.
+
+Prompt engineering involves writing clear instructions and providing relevant context to guide a language model. Few-shot prompting includes examples in the prompt, while zero-shot prompting asks the model to perform a task without examples.
+
+Retrieval-augmented generation combines information retrieval with text generation. A RAG system retrieves relevant documents from a knowledge base and supplies them to a language model as context. This can help ground responses in external information and reduce unsupported answers.
+
+Embeddings represent text or other data as numerical vectors. Vector databases store embeddings and support similarity search. Retrieval systems often use cosine similarity or other distance measures to find relevant documents.
+
+Fine-tuning adapts a pretrained model using additional training data. Inference is the process of using a trained model to generate predictions or responses.
+
+Generative AI applications include chatbots, document question answering, summarization, code assistance, content generation, and semantic search. Responsible deployment requires evaluation, privacy protection, security controls, and monitoring for inaccurate or biased outputs.

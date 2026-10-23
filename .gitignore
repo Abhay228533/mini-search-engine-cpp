@@ -1,0 +1,29 @@
+
+# CMake build output
+build/
+cmake-build-*/
+
+# macOS files
+.DS_Store
+
+# Compiled C++ files
+*.o
+*.a
+*.dylib
+*.so
+
+# Temporary test and benchmark artifacts
+test_index*.bin
+benchmark_results/
+
+# Local backups
+*.backup
+*.profile-backup
+
+# Editor settings
+.vscode/
+
+
+# Personal project-running instructions - do not upload
+/Run_the_project.docx
+/runnig_the_project.txt

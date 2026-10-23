@@ -1,0 +1,19 @@
+Information Retrieval and BM25 Ranking
+
+Information retrieval is the process of finding relevant documents from a large collection in response to a user's query. Search engines use indexing, query processing, and ranking to retrieve useful results efficiently.
+
+A document collection contains text files or other searchable content. During indexing, a search engine processes documents, tokenizes text into terms, and builds an inverted index. An inverted index maps each term to the documents that contain it.
+
+Tokenization divides text into individual terms. Text normalization can convert terms to lowercase and remove unwanted characters. These steps help match queries with documents consistently.
+
+When a user submits a query, the search engine processes the query and retrieves candidate documents using the index. A ranking algorithm then assigns relevance scores and orders the results.
+
+BM25 is a probabilistic ranking function commonly used in information retrieval. It considers term frequency, inverse document frequency, and document length normalization. Term frequency measures how often a query term appears in a document. Inverse document frequency gives greater importance to terms that occur in fewer documents.
+
+BM25 also accounts for document length so that long documents are not automatically ranked higher simply because they contain more words. Its parameters control term-frequency saturation and the effect of document length.
+
+A search engine may combine BM25 scoring with efficient top-k retrieval to return the highest-ranked documents without sorting every candidate unnecessarily.
+
+Search quality can be evaluated using metrics such as precision, recall, mean average precision, and normalized discounted cumulative gain. Performance can also be measured using query latency and throughput.
+
+Information retrieval is used in web search, digital libraries, enterprise search, document retrieval, and question-answering systems.

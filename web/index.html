@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mini Search Engine</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --navy: #172554;
+            --background: #f4f7fb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --muted: #64748b;
+            --border: #dbe3ef;
+            --highlight: #fef08a;
+            --shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #172554, #1e40af);
+            color: white;
+            text-align: center;
+            padding: 46px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: clamp(28px, 4vw, 44px);
+            letter-spacing: -1px;
+        }
+
+        header p {
+            margin: 0;
+            color: #dbeafe;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 38px auto;
+            padding: 0 22px 50px;
+        }
+
+        .search-panel {
+            position: relative;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-input-wrap {
+            flex: 1;
+            min-width: 0;
+            position: relative;
+        }
+
+        #query {
+            width: 100%;
+            min-height: 58px;
+            padding: 15px 48px 15px 18px;
+            font-size: 17px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            outline: none;
+            background: var(--surface);
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #query:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.13);
+        }
+
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .clear-button:hover {
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .search-button {
+            min-width: 125px;
+            border: none;
+            border-radius: 12px;
+            padding: 0 22px;
+            background: var(--primary);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .search-button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        #suggestions {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: none;
+        }
+
+        #suggestions.visible {
+            display: block;
+        }
+
+        .suggestion {
+            width: 100%;
+            display: block;
+            text-align: left;
+            padding: 12px 18px;
+            background: white;
+            color: var(--text);
+            border: none;
+            border-radius: 0;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .suggestion:hover,
+        .suggestion:focus {
+            background: #eff6ff;
+            outline: none;
+        }
+
+        .suggestion + .suggestion {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 25px 0 16px;
+        }
+
+        #status {
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        #resultCount {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .result {
+            background: var(--surface);
+            padding: 23px;
+            margin: 15px 0;
+            border: 1px solid #edf1f7;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .result:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.09);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .result h2 {
+            margin: 0;
+            font-size: 20px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .title-button {
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            color: var(--primary-dark);
+            font-size: inherit;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .title-button:hover {
+            background: transparent;
+            text-decoration: underline;
+        }
+
+        .score {
+            flex-shrink: 0;
+            font-size: 12px;
+            color: #1d4ed8;
+            background: #eff6ff;
+            border-radius: 20px;
+            padding: 5px 10px;
+            white-space: nowrap;
+        }
+
+        .preview {
+            color: #475569;
+            margin: 14px 0 10px;
+            font-size: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        mark {
+            background: var(--highlight);
+            color: #422006;
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+
+        .result-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .file-path {
+            color: var(--muted);
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .details-button {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .details-button:hover {
+            background: #eff6ff;
+        }
+
+        .details {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            background: #f1f6ff;
+            border: 1px solid #dbeafe;
+            border-radius: 10px;
+            overflow-wrap: anywhere;
+        }
+
+        .details.open {
+            display: block;
+        }
+
+        .details h3 {
+            margin: 0 0 12px;
+            font-size: 16px;
+        }
+
+        .details p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            background: white;
+            padding: 38px 20px;
+            text-align: center;
+            border-radius: 14px;
+            border: 1px dashed var(--border);
+            color: var(--muted);
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: var(--text);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 8px;
+            vertical-align: -2px;
+            border: 2px solid #cbd5e1;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 32px 16px;
+            }
+
+            .container {
+                margin-top: 25px;
+                padding: 0 14px 35px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-button {
+                min-height: 50px;
+            }
+
+            .result {
+                padding: 17px;
+            }
+
+            .result-header {
+                flex-direction: column;
+                gap: 9px;
+            }
+
+            .result h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Mini Search Engine</h1>
+        <p>Find relevant documents using your C++ search engine</p>
+    </header>
+
+    <main class="container">
+        <section class="search-panel">
+            <form id="searchForm" class="search-form">
+                <div class="search-input-wrap">
+                    <input
+                        id="query"
+                        type="search"
+                        placeholder="Try machine learning..."
+                        autocomplete="off"
+                        aria-label="Search documents"
+                        aria-controls="suggestions"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="clearButton"
+                        class="clear-button"
+                        aria-label="Clear search"
+                        title="Clear search"
+                        hidden
+                    >×</button>
+
+                    <div id="suggestions" role="listbox"></div>
+                </div>
+
+                <button id="searchButton" class="search-button" type="submit">
+                    Search
+                </button>
+            </form>
+        </section>
+
+        <div class="status-row">
+            <p id="status" aria-live="polite">
+                Enter a search query to get started.
+            </p>
+            <span id="resultCount"></span>
+        </div>
+
+        <section id="results" aria-label="Search results"></section>
+    </main>
+
+    <footer>
+        Mini Search Engine · Powered by C++ · Inverted Index · Trie
+    </footer>
+
+    <script>
+        const queryInput = document.getElementById("query");
+        const suggestionsBox = document.getElementById("suggestions");
+        const resultsBox = document.getElementById("results");
+        const statusBox = document.getElementById("status");
+        const resultCount = document.getElementById("resultCount");
+        const searchButton = document.getElementById("searchButton");
+        const clearButton = document.getElementById("clearButton");
+        const searchForm = document.getElementById("searchForm");
+
+        let debounceTimer;
+        let autocompleteController;
+        let searchController;
+        let requestNumber = 0;
+
+        function hideSuggestions() {
+            suggestionsBox.replaceChildren();
+            suggestionsBox.classList.remove("visible");
+        }
+
+        function showLoading(message) {
+            statusBox.replaceChildren();
+
+            const spinner = document.createElement("span");
+            spinner.className = "spinner";
+            spinner.setAttribute("aria-hidden", "true");
+
+            statusBox.append(spinner, document.createTextNode(message));
+        }
+
+        function showEmptyState(title, message) {
+            const box = document.createElement("div");
+            box.className = "empty-state";
+
+            const heading = document.createElement("h3");
+            heading.textContent = title;
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent = message;
+
+            box.append(heading, paragraph);
+            resultsBox.replaceChildren(box);
+        }
+
+        function highlightText(text, query) {
+            const fragment = document.createDocumentFragment();
+            const terms = query
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean)
+                .sort((a, b) => b.length - a.length);
+
+            if (!terms.length) {
+                fragment.appendChild(document.createTextNode(text));
+                return fragment;
+            }
+
+            const escapedTerms = terms.map(term =>
+                term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+            );
+
+            const pattern = new RegExp(
+                "(" + escapedTerms.join("|") + ")",
+                "gi"
+            );
+
+            let lastIndex = 0;
+
+            for (const match of text.matchAll(pattern)) {
+                const index = match.index;
+
+                if (index > lastIndex) {
+                    fragment.appendChild(
+                        document.createTextNode(
+                            text.slice(lastIndex, index)
+                        )
+                    );
+                }
+
+                const mark = document.createElement("mark");
+                mark.textContent = match[0];
+                fragment.appendChild(mark);
+
+                lastIndex = index + match[0].length;
+            }
+
+            if (lastIndex < text.length) {
+                fragment.appendChild(
+                    document.createTextNode(text.slice(lastIndex))
+                );
+            }
+
+            return fragment;
+        }
+
+        async function loadAutocomplete(prefix) {
+            if (autocompleteController) {
+                autocompleteController.abort();
+            }
+
+            autocompleteController = new AbortController();
+
+            try {
+                const response = await fetch(
+                    "/api/autocomplete?q=" +
+                        encodeURIComponent(prefix),
+                    { signal: autocompleteController.signal }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Autocomplete request failed");
+                }
+
+                const data = await response.json();
+
+                // Do not display stale suggestions for older input.
+                if (queryInput.value.trim() !== prefix) {
+                    return;
+                }
+
+                hideSuggestions();
+
+                for (const suggestion of data.suggestions || []) {
+                    const item = document.createElement("button");
+                    item.type = "button";
+                    item.className = "suggestion";
+                    item.setAttribute("role", "option");
+                    item.textContent = suggestion;
+
+                    item.addEventListener("click", () => {
+                        queryInput.value = suggestion;
+                        clearButton.hidden = false;
+                        hideSuggestions();
+                        searchDocuments(suggestion);
+                    });
+
+                    suggestionsBox.appendChild(item);
+                }
+
+                if (suggestionsBox.childElementCount > 0) {
+                    suggestionsBox.classList.add("visible");
+                }
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    console.error("Autocomplete error:", error);
+                }
+            }
+        }
+
+        queryInput.addEventListener("input", () => {
+            clearTimeout(debounceTimer);
+
+            const query = queryInput.value.trim();
+            clearButton.hidden = !queryInput.value;
+
+            hideSuggestions();
+
+            if (autocompleteController) {
+                autocompleteController.abort();
+            }
+
+            if (!query) {
+                return;
+            }
+
+            // Wait briefly before requesting suggestions.
+            debounceTimer = setTimeout(() => {
+                loadAutocomplete(query);
+            }, 180);
+        });
+
+        queryInput.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                hideSuggestions();
+            }
+
+            if (event.key === "ArrowDown") {
+                const firstSuggestion =
+                    suggestionsBox.querySelector(".suggestion");
+
+                if (firstSuggestion) {
+                    event.preventDefault();
+                    firstSuggestion.focus();
+                }
+            }
+        });
+
+        clearButton.addEventListener("click", () => {
+            queryInput.value = "";
+            clearButton.hidden = true;
+            hideSuggestions();
+            resultsBox.replaceChildren();
+            statusBox.textContent =
+                "Enter a search query to get started.";
+            resultCount.textContent = "";
+            queryInput.focus();
+
+            if (searchController) {
+                searchController.abort();
+            }
+        });
+
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".search-panel")) {
+                hideSuggestions();
+            }
+        });
+
+        searchForm.addEventListener("submit", event => {
+            event.preventDefault();
+            hideSuggestions();
+            searchDocuments(queryInput.value.trim());
+        });
+
+        async function loadDocumentDetails(result, details, button) {
+            if (details.dataset.loaded === "true") {
+                return;
+            }
+
+            details.textContent = "Loading document details...";
+
+            try {
+                const response = await fetch(
+                    "/api/document?id=" +
+                        encodeURIComponent(result.id)
+                );
+
+                if (!response.ok) {
+                    throw new Error("Could not load document details");
+                }
+
+                const doc = await response.json();
+                details.replaceChildren();
+
+                const heading = document.createElement("h3");
+                heading.textContent = "Document Details";
+                details.appendChild(heading);
+
+                const rows = [
+                    ["Document ID", doc.id],
+                    ["Title", doc.title],
+                    ["File path", doc.path],
+                    ["Token count", doc.tokenCount]
+                ];
+
+                for (const [label, value] of rows) {
+                    const paragraph = document.createElement("p");
+                    const strong = document.createElement("strong");
+
+                    strong.textContent = label + ": ";
+                    paragraph.append(
+                        strong,
+                        document.createTextNode(String(value ?? "N/A"))
+                    );
+
+                    details.appendChild(paragraph);
+                }
+
+                if (doc.preview) {
+                    const previewHeading = document.createElement("h3");
+                    previewHeading.textContent = "Fuller Preview";
+                    details.appendChild(previewHeading);
+
+                    const preview = document.createElement("p");
+                    preview.textContent = doc.preview;
+                    details.appendChild(preview);
+                }
+
+                details.dataset.loaded = "true";
+            } catch (error) {
+                details.textContent =
+                    "Unable to load details. Please try again.";
+
+                console.error("Document details error:", error);
+                button.textContent = "Retry details";
+            }
+        }
+
+        function createResultCard(result, query) {
+            const card = document.createElement("article");
+            card.className = "result";
+
+            const header = document.createElement("div");
+            header.className = "result-header";
+
+            const titleHeading = document.createElement("h2");
+            const titleButton = document.createElement("button");
+
+            titleButton.type = "button";
+            titleButton.className = "title-button";
+            titleButton.textContent = result.title || "Untitled document";
+            titleHeading.appendChild(titleButton);
+
+            const score = document.createElement("span");
+            score.className = "score";
+
+            const scoreValue = Number(result.score);
+            score.textContent =
+                "Score: " +
+                (Number.isFinite(scoreValue)
+                    ? scoreValue.toFixed(4)
+                    : "N/A");
+
+            header.append(titleHeading, score);
+
+            const preview = document.createElement("p");
+            preview.className = "preview";
+            preview.appendChild(
+                highlightText(
+                    result.preview || "Preview not available.",
+                    query
+                )
+            );
+
+            const footer = document.createElement("div");
+            footer.className = "result-footer";
+
+            const path = document.createElement("span");
+            path.className = "file-path";
+            path.textContent = result.path || "File path unavailable";
+
+            const detailsButton = document.createElement("button");
+            detailsButton.type = "button";
+            detailsButton.className = "details-button";
+            detailsButton.textContent = "View details";
+
+            const details = document.createElement("div");
+            details.className = "details";
+
+            async function toggleDetails() {
+                const opening = !details.classList.contains("open");
+
+                details.classList.toggle("open", opening);
+                detailsButton.textContent =
+                    opening ? "Hide details" : "View details";
+
+                if (opening) {
+                    await loadDocumentDetails(
+                        result,
+                        details,
+                        detailsButton
+                    );
+                }
+            }
+
+            titleButton.addEventListener("click", toggleDetails);
+            detailsButton.addEventListener("click", toggleDetails);
+
+            footer.append(path, detailsButton);
+            card.append(header, preview, footer, details);
+
+            return card;
+        }
+
+        async function searchDocuments(query) {
+            if (!query) {
+                statusBox.textContent = "Enter a search query first.";
+                queryInput.focus();
+                return;
+            }
+
+            if (searchController) {
+                searchController.abort();
+            }
+
+            searchController = new AbortController();
+            const currentRequest = ++requestNumber;
+
+            searchButton.disabled = true;
+            searchButton.textContent = "Searching...";
+            resultCount.textContent = "";
+            showLoading("Searching your documents...");
+            resultsBox.replaceChildren();
+
+            try {
+                const response = await fetch(
+                    "/api/search?q=" + encodeURIComponent(query),
+                    { signal: searchController.signal }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Search request failed");
+                }
+
+                const data = await response.json();
+
+                if (currentRequest !== requestNumber) {
+                    return;
+                }
+
+                const results = data.results || [];
+
+                statusBox.textContent =
+                    results.length === 0
+                        ? `No results found for "${query}".`
+                        : `Search results for "${query}"`;
+
+                resultCount.textContent =
+                    `${results.length} result(s)`;
+
+                if (results.length === 0) {
+                    showEmptyState(
+                        "No matching documents",
+                        "Try a different keyword or a shorter search phrase."
+                    );
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                for (const result of results) {
+                    fragment.appendChild(
+                        createResultCard(result, query)
+                    );
+                }
+
+                resultsBox.replaceChildren(fragment);
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    return;
+                }
+
+                if (currentRequest === requestNumber) {
+                    statusBox.textContent = "Search failed.";
+                    resultCount.textContent = "";
+
+                    showEmptyState(
+                        "Unable to connect",
+                        "Check that the C++ web server is running in your terminal."
+                    );
+                }
+
+                console.error("Search error:", error);
+            } finally {
+                if (currentRequest === requestNumber) {
+                    searchButton.disabled = false;
+                    searchButton.textContent = "Search";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

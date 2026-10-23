@@ -1,0 +1,19 @@
+Operating Systems and Process Scheduling
+
+An operating system is system software that manages computer hardware and provides services to application programs. It manages processes, threads, memory, files, devices, and system resources.
+
+A process is a program in execution. A process contains its own address space and resources, while threads within the same process share memory and other process resources. Multithreading allows multiple threads to execute concurrently within an application.
+
+Process scheduling determines which ready process receives CPU time. The operating system scheduler selects processes according to a scheduling algorithm.
+
+First Come, First Served schedules processes in arrival order. Shortest Job First selects the process with the shortest expected CPU burst. Priority scheduling selects processes according to their priorities. Round Robin assigns each process a fixed time quantum and cycles through the ready queue.
+
+Context switching occurs when the CPU switches from one process or thread to another. It introduces overhead because the operating system must save and restore execution state.
+
+A race condition occurs when multiple threads access shared data and the result depends on the order of execution. Mutex locks and semaphores help coordinate access to shared resources and protect critical sections.
+
+Deadlock can occur when processes wait indefinitely for resources held by one another. Deadlock conditions include mutual exclusion, hold and wait, no preemption, and circular wait.
+
+Virtual memory allows processes to use virtual addresses that are mapped to physical memory. Paging divides virtual memory into fixed-size pages and physical memory into frames.
+
+Operating systems use scheduling, synchronization, memory management, and resource allocation to support efficient and reliable program execution.

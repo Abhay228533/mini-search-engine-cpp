@@ -1,0 +1,14 @@
+Introduction to Search Engine Architecture
+
+A search engine processes documents and builds an index for efficient retrieval.
+Machine learning helps improve search ranking and information retrieval.
+Modern artificial intelligence systems use neural networks and vector representations.
+
+This section discusses document processing, tokenization, and ranking algorithms.
+The search engine uses BM25 to calculate relevance scores for matching documents.
+Text preprocessing converts the document into normalized tokens before indexing.
+
+Additional content is included here to test context-aware document previews.
+The goal is to show text surrounding a query match rather than only the beginning.
+This paragraph contains examples of machine learning applications in search systems.
+At the end of this document, artificial intelligence appears again for testing.

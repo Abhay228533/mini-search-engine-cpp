@@ -1,0 +1,17 @@
+Database Systems and SQL
+
+A database is an organized collection of data that can be stored, accessed, updated, and managed efficiently. Database management systems provide tools to maintain data consistency, security, and reliability.
+
+Relational databases organize data into tables containing rows and columns. Each table represents an entity, while primary keys uniquely identify records. Foreign keys establish relationships between tables and help maintain referential integrity.
+
+SQL stands for Structured Query Language. It is used to create tables, insert records, retrieve information, update values, and delete data. Common SQL commands include SELECT, INSERT, UPDATE, DELETE, CREATE, and ALTER.
+
+The SELECT statement retrieves data from one or more tables. The WHERE clause filters records, ORDER BY sorts results, and GROUP BY groups rows for aggregate calculations. JOIN operations combine related records from multiple tables.
+
+Database indexes improve query performance by helping the database locate records without scanning every row. However, indexes require storage and can increase the cost of insert, update, and delete operations.
+
+Database normalization organizes tables to reduce redundant data and prevent insertion, update, and deletion anomalies. Common normal forms include first normal form, second normal form, and third normal form.
+
+Transactions group database operations into a logical unit of work. ACID properties include atomicity, consistency, isolation, and durability. These properties help maintain reliable database operations.
+
+Database systems are widely used in banking, e-commerce, healthcare, inventory management, and web applications.

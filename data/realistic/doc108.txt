@@ -1,0 +1,19 @@
+Computer Networks and TCP/IP
+
+A computer network connects devices so they can exchange data and share resources. Networks use communication protocols to define how information is transmitted, addressed, and received.
+
+The OSI model divides network communication into seven layers: physical, data link, network, transport, session, presentation, and application. The TCP/IP model groups networking functions into fewer layers and is widely used on the internet.
+
+An IP address identifies a device interface on an IP network. IPv4 uses 32-bit addresses, while IPv6 uses 128-bit addresses. Routers forward packets between networks using routing tables.
+
+The Transmission Control Protocol provides reliable, connection-oriented communication. TCP uses sequence numbers, acknowledgments, retransmissions, and flow control to deliver data reliably and in order.
+
+TCP congestion control adjusts the rate of data transmission to reduce network congestion. Mechanisms such as slow start and congestion avoidance help the sender respond to changing network conditions.
+
+The User Datagram Protocol provides connectionless communication with lower overhead but does not guarantee delivery or ordering. UDP is useful for applications such as live streaming, online gaming, and real-time communication.
+
+The Domain Name System translates domain names into IP addresses. HTTP and HTTPS are application-layer protocols used to transfer web resources, with HTTPS protecting communication using TLS.
+
+Switches connect devices within local area networks, while routers connect different networks. Firewalls filter network traffic according to security rules.
+
+Computer networks support web browsing, email, cloud computing, file sharing, video conferencing, and distributed applications.

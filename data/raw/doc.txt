@@ -1,0 +1,1 @@
+echo "This is a long raw text document about machine learning, artificial intelligence, and search engine architecture designed to test our data processing pipeline." > data/raw/sample_book.txt

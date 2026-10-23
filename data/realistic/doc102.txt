@@ -1,0 +1,15 @@
+Introduction to Machine Learning
+
+Machine learning is a branch of artificial intelligence that enables computers to learn patterns from data and make predictions.
+
+Supervised learning uses labeled data to train models. Common algorithms include linear regression, decision trees, random forests, support vector machines, and neural networks. Classification and regression are common supervised learning tasks.
+
+Unsupervised learning finds patterns in unlabeled data. K-means clustering groups similar data points, while principal component analysis reduces the number of features.
+
+Deep learning uses multilayer neural networks. Convolutional neural networks are useful for image processing, and transformers are widely used in natural language processing.
+
+A machine learning pipeline includes data collection, data cleaning, preprocessing, feature engineering, model training, validation, evaluation, and deployment.
+
+Overfitting occurs when a model performs well on training data but poorly on unseen data. Cross-validation and regularization can help reduce overfitting.
+
+Machine learning is used in recommendation systems, fraud detection, medical image analysis, predictive maintenance, and information retrieval.

@@ -1,0 +1,19 @@
+C++ and Data Structures
+
+C++ is a general-purpose programming language widely used for system software, competitive programming, game development, and performance-critical applications. It supports procedural, object-oriented, and generic programming.
+
+A data structure organizes and stores data so that operations such as searching, insertion, deletion, and traversal can be performed efficiently.
+
+An array stores elements in contiguous memory locations and provides constant-time access by index. A linked list consists of nodes connected through pointers. Insertion and deletion can be efficient when the relevant node is already known.
+
+A stack follows the Last In, First Out principle. Its common operations are push, pop, and top. A queue follows the First In, First Out principle and supports enqueue and dequeue operations.
+
+A tree is a hierarchical data structure. In a binary tree, each node has at most two children. A binary search tree stores smaller values in the left subtree and larger values in the right subtree, following its ordering rules.
+
+A graph contains vertices and edges. Breadth-first search explores neighboring vertices level by level, while depth-first search explores paths before backtracking.
+
+Binary search finds an element in a sorted array by repeatedly dividing the search interval in half. Its time complexity is O(log n). Linear search examines elements one by one and has O(n) time complexity in the worst case.
+
+Sorting algorithms include bubble sort, insertion sort, merge sort, and quicksort. Merge sort generally runs in O(n log n) time and uses additional memory for merging.
+
+Choosing the right data structure and algorithm improves program efficiency, memory usage, and scalability.
